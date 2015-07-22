@@ -2,7 +2,7 @@ package br.com.alexpfx.bear.app.screen.lockunlock;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -56,7 +56,25 @@ public class LockUnlockScreenActivity extends AppCompatActivity {
                 final Window window = getWindow();
                 window.addFlags(FLAG_DISMISS_KEYGUARD | FLAG_SHOW_WHEN_LOCKED | FLAG_TURN_SCREEN_ON);
             }
-        }, 7000);
+        }, 10000);
+    }
 
+    int temp = 5000;
+    @OnClick(R.id.btnLock)
+    public void onLockClick() {
+    // n funciona.
+        try {
+            temp = Settings.System.getInt(getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT);
+        } catch (Settings.SettingNotFoundException e) {
+            e.printStackTrace();
+        }
+        Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, 100);
+        h.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, temp);
+
+            }
+        }, 5000);
     }
 }
