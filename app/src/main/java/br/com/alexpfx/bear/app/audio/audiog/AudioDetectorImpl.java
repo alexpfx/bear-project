@@ -1,7 +1,10 @@
-package br.com.alexpfx.bear.app.audio;
+package br.com.alexpfx.bear.app.audio.audiog;
 
+import com.musicg.api.ClapApi;
 import com.musicg.api.WhistleApi;
+import com.musicg.wave.Wave;
 import com.musicg.wave.WaveHeader;
+import com.musicg.wave.WaveTypeDetector;
 
 /**
  * Created by alexandre on 21/07/15.
@@ -11,10 +14,15 @@ public class AudioDetectorImpl implements AudioDetector {
     private AudioRecorder audioRecorder;
     private WaveHeader waveHeader;
     private WhistleApi whistleApi;
+    private ClapApi clapApi;
     private boolean isRunning = true;
+    private OnSignalsDetectedListener onSignalsDetectedListener;
 
 
-    public AudioDetectorImpl(AudioRecorder audioRecorder) {
+    WaveTypeDetector typeDetector;
+
+    public AudioDetectorImpl(OnSignalsDetectedListener listener, AudioRecorder audioRecorder) {
+        this.onSignalsDetectedListener = listener;
         this.audioRecorder = audioRecorder;
         waveHeader = new WaveHeader();
         int channel = audioRecorder.getChannel();
@@ -30,6 +38,11 @@ public class AudioDetectorImpl implements AudioDetector {
 
         whistleApi = new WhistleApi(waveHeader);
 
+        clapApi = new ClapApi(waveHeader);
+
+        typeDetector = new WaveTypeDetector(new Wave(waveHeader, new byte[2048]));
+
+
     }
 
     @Override
@@ -39,11 +52,9 @@ public class AudioDetectorImpl implements AudioDetector {
             buffer = audioRecorder.getFrameBytes();
 
             if (buffer.length > 0){
-                for (byte b : buffer){
-                    System.out.print(b);
+                if (whistleApi.isWhistle(buffer)){
+                    onSignalsDetectedListener.onWhistleDetected();
                 }
-                System.out.println();
-                System.out.println(whistleApi.isWhistle(buffer));
             }
         }
     }

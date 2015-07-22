@@ -1,23 +1,29 @@
 package br.com.alexpfx.bear.app;
 
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import br.com.alexpfx.bear.app.audio.AudioDetector;
-import br.com.alexpfx.bear.app.audio.AudioDetectorImpl;
-import br.com.alexpfx.bear.app.audio.AudioRecorder;
-import br.com.alexpfx.bear.app.audio.AudioRecorderImpl;
+import android.widget.EditText;
+import br.com.alexpfx.bear.app.audio.audiog.AudioDetector;
+import br.com.alexpfx.bear.app.audio.audiog.AudioDetectorImpl;
+import br.com.alexpfx.bear.app.audio.audiog.AudioRecorder;
+import br.com.alexpfx.bear.app.audio.audiog.AudioRecorderImpl;
+import br.com.alexpfx.bear.app.screen.lockunlock.LockUnlockScreenActivity;
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity implements AudioDetector.OnSignalsDetectedListener {
     AudioRecorder audioRecorder;
     AudioDetector audioDetector;
     Thread recordThread;
     Thread detectorThread;
 
-
+    @Bind(R.id.edtDetections)
+    EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +32,7 @@ public class MainActivity extends ActionBarActivity {
         ButterKnife.bind(this);
 
         audioRecorder = new AudioRecorderImpl();
-        audioDetector = new AudioDetectorImpl(audioRecorder);
-
+        audioDetector = new AudioDetectorImpl(this, audioRecorder);
 
     }
 
@@ -54,7 +59,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     @OnClick(R.id.btnStartRecord)
-    void btnStartRecordClick (){
+    void btnStartRecordClick() {
         recordThread = new Thread(audioRecorder);
         detectorThread = new Thread(audioDetector);
         recordThread.start();
@@ -62,9 +67,36 @@ public class MainActivity extends ActionBarActivity {
     }
 
     @OnClick(R.id.btnStopRecord)
-    void btnStopRecordClick (){
+    void btnStopRecordClick() {
         audioRecorder.stopRecording();
 
+    }
+
+
+    @OnClick(R.id.btnLock)
+    void btnLockClick() {
+        startActivity(new Intent(this, LockUnlockScreenActivity.class));
+    }
+
+    @Override
+    public void onClapDetected() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                editText.append(" Palmas! ");
+
+            }
+        });
+    }
+
+    @Override
+    public void onWhistleDetected() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                editText.append(" Apito! ");
+            }
+        });
     }
 
 }

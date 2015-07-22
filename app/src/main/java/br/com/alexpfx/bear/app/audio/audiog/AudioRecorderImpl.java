@@ -1,4 +1,4 @@
-package br.com.alexpfx.bear.app.audio;
+package br.com.alexpfx.bear.app.audio.audiog;
 
 import android.media.AudioFormat;
 import android.media.AudioRecord;

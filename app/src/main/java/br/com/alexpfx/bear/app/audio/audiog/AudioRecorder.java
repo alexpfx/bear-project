@@ -1,6 +1,4 @@
-package br.com.alexpfx.bear.app.audio;
-
-import android.media.AudioFormat;
+package br.com.alexpfx.bear.app.audio.audiog;
 
 /**
  * Created by alexandre on 21/07/15.
