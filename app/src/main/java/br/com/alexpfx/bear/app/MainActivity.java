@@ -2,17 +2,16 @@ package br.com.alexpfx.bear.app;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import br.com.alexpfx.android.lib.popcorntime.PopcornTimeMainActivity;
 import br.com.alexpfx.bear.app.audio.audiog.AudioDetector;
 import br.com.alexpfx.bear.app.audio.audiog.AudioDetectorImpl;
 import br.com.alexpfx.bear.app.audio.audiog.AudioRecorder;
 import br.com.alexpfx.bear.app.audio.audiog.AudioRecorderImpl;
 import br.com.alexpfx.bear.app.popcorn.RemoteControlPopcornTime;
-import br.com.alexpfx.bear.app.screen.lockunlock.LockUnlockScreenActivity;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -34,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements AudioDetector.OnS
 
         audioRecorder = new AudioRecorderImpl();
         audioDetector = new AudioDetectorImpl(this, audioRecorder);
+
 
     }
 
@@ -65,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements AudioDetector.OnS
         detectorThread = new Thread(audioDetector);
         recordThread.start();
         detectorThread.start();
+
+
     }
 
     @OnClick(R.id.btnStopRecord)
@@ -76,12 +78,16 @@ public class MainActivity extends AppCompatActivity implements AudioDetector.OnS
 
     @OnClick(R.id.btnLock)
     void btnLockClick() {
-        startActivity(new Intent(this, LockUnlockScreenActivity.class));
+//        startActivity(new Intent(this, PopcornTimeMainActivity.class));
     }
 
     @OnClick(R.id.btnPopConnect)
     void bntPopConnectOnClick (){
-        new RemoteControlPopcornTime().connect();
+//        new RemoteControlPopcornTime().connect();
+        Intent i = new Intent(getApplicationContext(), PopcornTimeMainActivity.class);
+
+
+        startActivity(i);
     }
 
     @Override
