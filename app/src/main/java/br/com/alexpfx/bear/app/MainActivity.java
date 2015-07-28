@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import br.com.alexpfx.android.lib.network.NetworkMainActivity;
 import br.com.alexpfx.android.lib.popcorntime.PopcornTimeMainActivity;
 import br.com.alexpfx.bear.app.audio.audiog.AudioDetector;
 import br.com.alexpfx.bear.app.audio.audiog.AudioDetectorImpl;
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements AudioDetector.OnS
 
     @OnClick(R.id.btnLock)
     void btnLockClick() {
-//        startActivity(new Intent(this, PopcornTimeMainActivity.class));
+        startActivity(new Intent(this, NetworkMainActivity.class));
     }
 
     @OnClick(R.id.btnPopConnect)

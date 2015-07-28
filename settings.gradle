@@ -1,1 +1,1 @@
-include ':app', "../lib-android-popcorntime", "../lib-android-popcorntime:lib"
+include ':app', "../lib-android-popcorntime", "../lib-android-popcorntime:lib", "../lib-android-network", "../lib-android-network:lib"
