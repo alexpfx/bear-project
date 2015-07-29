@@ -60,7 +60,7 @@ public class LockUnlockScreenActivity extends AppCompatActivity {
     }
 
     int temp = 5000;
-    @OnClick(R.id.btnLock)
+    @OnClick(R.id.btnOpenNetworkScan)
     public void onLockClick() {
     // n funciona.
         try {

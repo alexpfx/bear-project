@@ -12,7 +12,6 @@ import br.com.alexpfx.bear.app.audio.audiog.AudioDetector;
 import br.com.alexpfx.bear.app.audio.audiog.AudioDetectorImpl;
 import br.com.alexpfx.bear.app.audio.audiog.AudioRecorder;
 import br.com.alexpfx.bear.app.audio.audiog.AudioRecorderImpl;
-import br.com.alexpfx.bear.app.popcorn.RemoteControlPopcornTime;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -77,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements AudioDetector.OnS
     }
 
 
-    @OnClick(R.id.btnLock)
+    @OnClick(R.id.btnOpenNetworkScan)
     void btnLockClick() {
         startActivity(new Intent(this, NetworkMainActivity.class));
     }
