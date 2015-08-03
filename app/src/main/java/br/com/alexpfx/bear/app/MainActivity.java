@@ -121,8 +121,8 @@ public class MainActivity extends AppCompatActivity implements AudioDetector.OnS
     @OnClick(R.id.btnExecuteYoutube)
     public void onSendToChromecastClick() {
         CommandExecutorUseCaseImpl commandExecutorUseCase = null;
-       commandExecutorUseCase = new CommandExecutorUseCaseImpl(threadExecutor);
-        commandExecutorUseCase.execute("http://192.168.25.99:8080/",new YoutubeCommandDescriptor("qo7xSdzzJSU"),this);
+        commandExecutorUseCase = new CommandExecutorUseCaseImpl(threadExecutor);
+        commandExecutorUseCase.execute("http://192.168.25.99:8008/", new YoutubeCommandDescriptor("qo7xSdzzJSU"), this);
 
 
     }
