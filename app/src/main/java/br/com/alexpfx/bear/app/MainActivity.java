@@ -126,9 +126,9 @@ public class MainActivity extends AppCompatActivity implements AudioDetector.OnS
     public void onSendToChromecastClick()  {
         CommandExecutorUseCaseImpl commandExecutorUseCase = null;
         try {
-            commandExecutorUseCase = new CommandExecutorUseCaseImpl(threadExecutor, new JSONRPC2Session(new URL("http://192.168.25.99:8008/apps/YouTube")));
+            commandExecutorUseCase = new CommandExecutorUseCaseImpl(threadExecutor, new URL("http://192.168.25.99:8008/apps/YouTube"));
         } catch (MalformedURLException e) {
-
+            e.printStackTrace();
         }
         commandExecutorUseCase.execute(new YoutubeCommandDescriptor("rOU4YiuaxAM"), new CommandExecutorUseCase.Callback() {
             @Override
