@@ -123,8 +123,13 @@ public class MainActivity extends AppCompatActivity implements AudioDetector.OnS
     }
 
     @OnClick(R.id.btnExecuteYoutube)
-    public void onSendToChromecastClick() throws MalformedURLException {
-        final CommandExecutorUseCaseImpl commandExecutorUseCase = new CommandExecutorUseCaseImpl(threadExecutor, new JSONRPC2Session(new URL("http://192.168.25.99:8008/apps/YouTube")));
+    public void onSendToChromecastClick()  {
+        CommandExecutorUseCaseImpl commandExecutorUseCase = null;
+        try {
+            commandExecutorUseCase = new CommandExecutorUseCaseImpl(threadExecutor, new JSONRPC2Session(new URL("http://192.168.25.99:8008/apps/YouTube")));
+        } catch (MalformedURLException e) {
+
+        }
         commandExecutorUseCase.execute(new YoutubeCommandDescriptor("rOU4YiuaxAM"), new CommandExecutorUseCase.Callback() {
             @Override
             public void onCommandExecutionSucceful() {
