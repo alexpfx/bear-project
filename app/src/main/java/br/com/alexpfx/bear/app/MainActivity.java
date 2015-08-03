@@ -19,12 +19,8 @@ import br.com.alexpfx.bear.app.audio.audiog.AudioRecorderImpl;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.thetransactioncompany.jsonrpc2.client.JSONRPC2Session;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
-public class MainActivity extends AppCompatActivity implements AudioDetector.OnSignalsDetectedListener {
+public class MainActivity extends AppCompatActivity implements AudioDetector.OnSignalsDetectedListener, CommandExecutorUseCase.Callback {
     AudioRecorder audioRecorder;
     AudioDetector audioDetector;
     Thread recordThread;
@@ -123,25 +119,21 @@ public class MainActivity extends AppCompatActivity implements AudioDetector.OnS
     }
 
     @OnClick(R.id.btnExecuteYoutube)
-    public void onSendToChromecastClick()  {
+    public void onSendToChromecastClick() {
         CommandExecutorUseCaseImpl commandExecutorUseCase = null;
-        try {
-            commandExecutorUseCase = new CommandExecutorUseCaseImpl(threadExecutor, new URL("http://192.168.25.99:8008/apps/YouTube"));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        commandExecutorUseCase.execute(new YoutubeCommandDescriptor("rOU4YiuaxAM"), new CommandExecutorUseCase.Callback() {
-            @Override
-            public void onCommandExecutionSucceful() {
-                System.out.println("sucesso");
-            }
+       commandExecutorUseCase = new CommandExecutorUseCaseImpl(threadExecutor);
+        commandExecutorUseCase.execute("http://192.168.25.99:8080/",new YoutubeCommandDescriptor("qo7xSdzzJSU"),this);
 
-            @Override
-            public void onCommandExecutionFailed(Throwable throwable) {
-                System.out.println("erro");
-            }
-        });
 
     }
 
+    @Override
+    public void onCommandExecutionSucceful() {
+        System.out.println("foi");
+    }
+
+    @Override
+    public void onCommandExecutionFailed(Throwable throwable) {
+        System.out.println(throwable.getMessage());
+    }
 }
