@@ -7,6 +7,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import br.com.alexpfx.android.lib.network.NetworkMainActivity;
+import br.com.alexpfx.android.lib.network.model.ThreadExecutor;
+import br.com.alexpfx.android.lib.network.model.usecases.chrome.CommandExecutorUseCase;
+import br.com.alexpfx.android.lib.network.model.usecases.chrome.CommandExecutorUseCaseImpl;
+import br.com.alexpfx.android.lib.network.model.usecases.chrome.YoutubeCommandDescriptor;
 import br.com.alexpfx.android.lib.popcorntime.PopcornTimeMainActivity;
 import br.com.alexpfx.bear.app.audio.audiog.AudioDetector;
 import br.com.alexpfx.bear.app.audio.audiog.AudioDetectorImpl;
@@ -15,12 +19,17 @@ import br.com.alexpfx.bear.app.audio.audiog.AudioRecorderImpl;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.thetransactioncompany.jsonrpc2.client.JSONRPC2Session;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class MainActivity extends AppCompatActivity implements AudioDetector.OnSignalsDetectedListener {
     AudioRecorder audioRecorder;
     AudioDetector audioDetector;
     Thread recordThread;
     Thread detectorThread;
+    private ThreadExecutor threadExecutor;
 
     @Bind(R.id.edtDetections)
     EditText editText;
@@ -33,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements AudioDetector.OnS
 
         audioRecorder = new AudioRecorderImpl();
         audioDetector = new AudioDetectorImpl(this, audioRecorder);
+
+        threadExecutor = new ThreadExecutor(2);
 
 
     }
@@ -82,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements AudioDetector.OnS
     }
 
     @OnClick(R.id.btnPopConnect)
-    void bntPopConnectOnClick (){
+    void bntPopConnectOnClick() {
 //        new RemoteControlPopcornTime().connect();
         Intent i = new Intent(getApplicationContext(), PopcornTimeMainActivity.class);
 
@@ -109,6 +120,23 @@ public class MainActivity extends AppCompatActivity implements AudioDetector.OnS
                 editText.append(" Apito! ");
             }
         });
+    }
+
+    @OnClick(R.id.btnExecuteYoutube)
+    public void onSendToChromecastClick() throws MalformedURLException {
+        final CommandExecutorUseCaseImpl commandExecutorUseCase = new CommandExecutorUseCaseImpl(threadExecutor, new JSONRPC2Session(new URL("http://192.168.25.99:8008/apps/YouTube")));
+        commandExecutorUseCase.execute(new YoutubeCommandDescriptor("rOU4YiuaxAM"), new CommandExecutorUseCase.Callback() {
+            @Override
+            public void onCommandExecutionSucceful() {
+                System.out.println("sucesso");
+            }
+
+            @Override
+            public void onCommandExecutionFailed(Throwable throwable) {
+                System.out.println("erro");
+            }
+        });
+
     }
 
 }
