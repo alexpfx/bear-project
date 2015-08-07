@@ -8,7 +8,7 @@ buildscript {
 }
 
 
-evaluationDependsOn(':lib-android-network')
+
 apply plugin: 'com.android.application'
 
 repositories {
