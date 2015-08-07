@@ -123,9 +123,9 @@ public class MainActivity extends AppCompatActivity implements AudioDetector.OnS
         CommandExecutorUseCaseImpl commandExecutorUseCase = null;
         commandExecutorUseCase = new CommandExecutorUseCaseImpl(threadExecutor);
         commandExecutorUseCase.execute("http://192.168.25.99:8008", new YoutubeCommandDescriptor("qo7xSdzzJSU"), this);
-
-
     }
+
+
 
     @Override
     public void onCommandExecutionSucceful() {
