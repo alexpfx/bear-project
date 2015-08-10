@@ -92,8 +92,6 @@ public class MainActivity extends AppCompatActivity implements AudioDetector.OnS
     void bntPopConnectOnClick() {
 //        new RemoteControlPopcornTime().connect();
         Intent i = new Intent(getApplicationContext(), PopcornTimeMainActivity.class);
-
-
         startActivity(i);
     }
 

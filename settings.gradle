@@ -1,12 +1,2 @@
-include ':app', "../lib-android-popcorntime", "../lib-android-popcorntime:lib"
-
-include ':lib-android-base', ':lib-android-base:lib', ':lib-android-network', ':lib-android-network:lib'
-project(':lib-android-base').projectDir = new File(settingsDir, '../lib-android-base')
-project(':lib-android-base:lib').projectDir = new File(settingsDir, '../lib-android-base/lib')
-
-
-project(':lib-android-network').projectDir = new File(settingsDir, '../lib-android-network')
-project(':lib-android-network:lib').projectDir = new File(settingsDir, '../lib-android-network/lib')
-
-
+include ':app', "../lib-android-popcorntime", "../lib-android-popcorntime:lib", "..:lib-android-network:lib","..:lib-android-base:lib_base"
 
