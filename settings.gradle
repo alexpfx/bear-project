@@ -1,2 +1,8 @@
-include ':app', "../lib-android-popcorntime", "../lib-android-popcorntime:lib", "..:lib-android-network:lib","..:lib-android-base:lib_base"
+include ':app', "../lib-android-popcorntime", "../lib-android-popcorntime:lib"
+include ':network'
+include ':base'
+project(':base').projectDir = new File ('../lib-android-base/lib_base/')
+project(':network').projectDir = new File('../lib-android-network/lib/')
+
+
 
